@@ -1,0 +1,72 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TARGAN NEXUS - Pro</title>
+<style>
+body{font-family:Arial;margin:0;background:#f4f4f4}
+header{background:#000;color:#fff;text-align:center;padding:20px}
+nav{background:#222;text-align:center;padding:10px}
+nav a{color:#fff;margin:10px;text-decoration:none;font-weight:bold}
+.container{padding:20px}
+.card{background:#fff;padding:15px;margin:10px 0;border-radius:10px;box-shadow:0 0 5px rgba(0,0,0,0.2)}
+.btn{padding:10px 15px;background:green;color:#fff;border:none;border-radius:5px;cursor:pointer}
+input{width:100%;padding:10px;margin:5px 0}
+footer{background:#000;color:#fff;text-align:center;padding:10px;margin-top:20px}
+</style>
+</head>
+<body><header>
+<h1>TARGAN NEXUS</h1>
+<p>Professional Business System</p>
+</header><nav>
+<a href="#">Home</a>
+<a href="#order">Order</a>
+<a href="#admin">Admin</a>
+</nav><div class="container"><h2 id="order">Place Order</h2>
+<div class="card">
+<input type="text" id="name" placeholder="Name" required>
+<input type="text" id="product" placeholder="Product">
+<input type="number" id="qty" placeholder="Quantity">
+<input type="text" id="phone" placeholder="Phone">
+<button class="btn" onclick="placeOrder()">Order Now</button>
+</div><h2>Payment</h2>
+<div class="card">
+<p>Send payment via bank / card (manual for now)</p>
+<button class="btn" onclick="alert('Payment feature can be connected later (PayHere / Stripe)')">Pay Now</button>
+</div><h2 id="admin">Admin Panel</h2>
+<div class="card">
+<button class="btn" onclick="showOrders()">View Orders</button>
+<ul id="orders"></ul>
+</div></div><footer>
+<p>© 2026 TARGAN NEXUS</p>
+</footer><script>
+function placeOrder(){
+let name=document.getElementById('name').value;
+let product=document.getElementById('product').value;
+let qty=document.getElementById('qty').value;
+let phone=document.getElementById('phone').value;
+
+let order={name,product,qty,phone};
+
+let orders=JSON.parse(localStorage.getItem('orders')||'[]');
+orders.push(order);
+localStorage.setItem('orders',JSON.stringify(orders));
+
+let msg=`Order:%0A${name}%0A${product}%0AQty:${qty}%0APhone:${phone}`;
+window.open(`https://wa.me/94762469107?text=${msg}`);
+
+alert('Order Placed!');
+}
+
+function showOrders(){
+let list=document.getElementById('orders');
+list.innerHTML='';
+let orders=JSON.parse(localStorage.getItem('orders')||'[]');
+orders.forEach(o=>{
+let li=document.createElement('li');
+li.innerText=`${o.name} - ${o.product} (${o.qty})`;
+list.appendChild(li);
+});
+}
+</script></body>
+</html>
